@@ -1,0 +1,14 @@
+{
+  "name": "surety",
+  "version": "1.0.0",
+  "description": "Final assertion library",
+  "main": "index.js",
+  "author": "Antony Jones",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha *.test.js"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0"
+  }
+}
