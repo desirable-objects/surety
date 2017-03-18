@@ -9,5 +9,9 @@ exports.expectThrown = function (fn, lines) {
   } catch (e) {
     const messages = e.message.split('\n')
     expect(messages.length).to.equal(lines.length)
+
+    messages.forEach((message, i) => {
+      expect(message, `line ${i}: ${message}`).to.equal(lines[i])
+    })
   }
 }

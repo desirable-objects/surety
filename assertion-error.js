@@ -1,9 +1,9 @@
 'use strict'
 
 class AssertionError extends Error {
-  constructor(language, actual, expected) {
+  constructor(language, expected, actual) {
 
-    const messages = [`expected ${actual} ${language} ${expected}`]    
+    const messages = [`expected ${expected} ${language} ${actual}`]    
     
     if (typeof expected === 'string' && typeof actual === 'string') {
       messages.push(...[
