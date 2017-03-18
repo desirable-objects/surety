@@ -1,5 +1,7 @@
 'use strict'
 
+const { red, green } = require('chalk')
+
 class AssertionError extends Error {
   constructor(language, expected, actual) {
 
@@ -9,10 +11,10 @@ class AssertionError extends Error {
       messages.push(...[
         '',
         'Expected:', 
-        expected,
+        green(expected),
         '',
         'Actual:',
-        actual
+        red(actual)
       ])
     }
 

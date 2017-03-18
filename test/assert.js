@@ -1,6 +1,7 @@
 'use strict'
 
 const { fail, expect } = require('code')
+const { stripColor } = require('chalk')
 
 exports.expectThrown = function (fn, lines) {
   try {
@@ -11,7 +12,7 @@ exports.expectThrown = function (fn, lines) {
     expect(messages.length).to.equal(lines.length)
 
     messages.forEach((message, i) => {
-      expect(message, `line ${i}: ${message}`).to.equal(lines[i])
+      expect(stripColor(message), `line ${i}: ${message}`).to.equal(lines[i])
     })
   }
 }
