@@ -1,12 +1,14 @@
 'use strict'
 
-const { equal } = require('./assertions')
+const { equal, thrown } = require('./assertions')
 
-const expectation = function (expected) {
+const expectation = function (expectation) {
   return {
-    equals: equal.bind(this, false, expected),
+    equals: equal.bind(this, false, expectation),
+    throws: thrown.bind(this, false, expectation),
     doesnt: {
-      equal: equal.bind(this, true, expected)
+      equal: equal.bind(this, true, expectation),
+      throw: thrown.bind(this, true, expectation)
     }
   }
 }

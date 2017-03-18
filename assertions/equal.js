@@ -1,11 +1,11 @@
 'use strict'
 
 const fail = require('./fail')
+const { EqualityError } = require('../errors')
 
 module.exports = function (inverse, expected, actual) {
-  const language = inverse ? 'not to equal' : 'to equal'
   const equal = expected === actual
   if (equal === inverse) {
-    fail(language, expected, actual)
+    throw new EqualityError(inverse, expected, actual)
   }
 }

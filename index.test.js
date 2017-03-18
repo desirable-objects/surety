@@ -14,11 +14,15 @@ describe('surety', () => {
       surely(true).doesnt.equal(false)
     })
 
-    it('asserts true', () => {
+    it('strings are equal', () => {
       surely('str').equals('str')
     })
 
-    it('asserts false', () => {
+    it('strings are not equal', () => {
+      surely('str2').doesnt.equal('str')
+    })
+
+    it('strings are equal messaging', () => {
       expectThrown(() => {
         surely('string').equals('stripe')
       }, [
@@ -29,6 +33,28 @@ describe('surety', () => {
         '',
         'Actual:',
         'stripe'
+      ])
+    })
+  })
+
+  context('#throws()', () => {
+    it('asserts thrown', () => {
+      surely(() => { throw new Error() }).throws(Error)
+    })
+
+    it('asserts not thrown', () => {
+      surely(() => { }).doesnt.throw(Error)
+    })
+
+    it('threw something different', () => {
+      class OtherError extends Error {}
+      expectThrown(() => {
+        surely(() => { throw new OtherError() }).throws(Error)
+      }, [
+        'expected function to have thrown an Error',
+        '',
+        'Thrown:',
+        'OtherError'
       ])
     })
   })

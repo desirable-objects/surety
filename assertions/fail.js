@@ -1,7 +1,7 @@
 'use strict'
 
-const AssertionError = require('../assertion-error')
+const { AssertionError } = require('../errors')
 
-module.exports = function (language, expected, actual) {
-  throw new AssertionError(language, expected, actual)
+module.exports = function (message) {
+  throw new AssertionError([message])
 }
