@@ -1,6 +1,7 @@
 'use strict'
 
 const { expect } = require('code')
+const { expectThrown } = require('./test/assert')
 const surely = require('.')
 
 describe('surety', () => {
@@ -18,13 +19,17 @@ describe('surety', () => {
     })
 
     it('asserts false', () => {
-      try {
+      expectThrown(() => {
         surely('string').equals('stripe')
-        fail()
-      } catch (e) {
-        const messages = e.message.split('\n')
-        expect(messages.length).to.equal(4)
-      }
+      }, [
+        'expected string to equal stripe',
+        '',
+        'Expected:',
+        'string',
+        '',
+        'Actual:',
+        'stripe'
+      ])
     })
   })
 

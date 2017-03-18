@@ -6,7 +6,14 @@ class AssertionError extends Error {
     const messages = [`expected ${actual} ${language} ${expected}`]    
     
     if (typeof expected === 'string' && typeof actual === 'string') {
-      messages.push(...['', `expected ne actual`, ''])
+      messages.push(...[
+        '',
+        'Expected:', 
+        expected,
+        '',
+        'Actual:',
+        actual
+      ])
     }
 
     super(messages.join('\n'))
