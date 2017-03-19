@@ -2,30 +2,34 @@
 
 const fail = require('./fail')
 const { ExpectationError } = require('../errors')
-const { Throw, NoThrow, Mismatch } = ExpectationError.Types
+const { Throw, NoThrow, Mismatch, MismatchMessage } = ExpectationError.Types
 
-module.exports = function (inverse, fn, expected) {
+module.exports = function (inverse, fn, expected, message) {
   let fail
   const expectedErrorClass = expected && expected.name
   try {
     fn()
 
     if (!inverse) {
-      fail = { type: Throw, expected: expectedErrorClass, actual: '(no error)' }
+      fail = [ Throw, expectedErrorClass, '(no error)' ]
     }
   } catch (e) {
     const actualErrorClass = e.constructor.name
     
     if (!inverse && (expectedErrorClass && (actualErrorClass !== expectedErrorClass))) {
-      fail = { type: Mismatch, expected: expectedErrorClass, actual: actualErrorClass }
+      fail = [ Mismatch, expectedErrorClass, actualErrorClass ]
     }
     
     if (inverse) {
-      fail = { type: NoThrow, expected: '(no error)', actual: actualErrorClass }
+      fail = [ NoThrow, '(no error)', actualErrorClass ]
+    }
+
+    if (message && e.message !== message) {
+      fail = [ MismatchMessage, expectedErrorClass, actualErrorClass, message, e.message ]
     }
   }
 
   if (fail) {
-   throw new ExpectationError(fail.type, fail.expected, fail.actual) 
+   throw new ExpectationError(...fail) 
   }
 }

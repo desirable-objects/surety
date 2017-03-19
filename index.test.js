@@ -42,6 +42,26 @@ describe('surety', () => {
       surely(() => { throw new Error() }).throws(Error)
     })
 
+    it('asserts thrown with message', () => {
+      const msg = 'some message'
+      surely(() => { throw new Error(msg) }).throws(Error, msg)
+    })
+
+    it('asserts thrown with unmatched message', () => {
+      expectThrown(() => {
+        surely(() => { throw new Error('msg1') }).throws(Error, 'msg2')
+      }, [
+        'expected function to have thrown Error with message msg2 but threw Error with message msg1',
+        '',
+        'Expected:',
+        'Error',
+        '',
+        'Thrown:',
+        'Error',
+        ''
+      ])
+    })
+
     it('asserts not thrown', () => {
       surely(() => { }).doesnt.throw(Error)
     })
