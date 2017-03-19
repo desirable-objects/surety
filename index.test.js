@@ -37,6 +37,16 @@ describe('surety', () => {
     })
   })
 
+  context('Promise<#equals()>', () => {
+    it('asserts true', () => {
+      surely(() => { Promise.resolve(true) }).eventually.equals(true)
+    })
+
+    it('asserts false', () => {
+      surely(() => { Promise.resolve(true) }).doesnt.eventually.equal(false)
+    })
+  })
+
   context('#throws()', () => {
     class OtherError extends Error {}
 

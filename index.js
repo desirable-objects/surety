@@ -10,10 +10,12 @@ const expectation = function (expectation, ...params) {
       equal: equal.bind(this, true, expectation),
       throw: thrown.bind(this, true, expectation, ...params),
       eventually: {
+        equal: () => { return Promise.resolve(equal.bind(this, true, expectation)) },
         throw: () => { return Promise.resolve(thrown.bind(this, true, expectation, ...params)) }
       }
     },
     eventually: {
+      equals: () => { return Promise.resolve(equal.bind(this, false, expectation)) },
       throws: () => { return Promise.resolve(thrown.bind(this, false, expectation, ...params)) }
     }
   }
