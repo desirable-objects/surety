@@ -129,8 +129,12 @@ describe('surety', () => {
   context('Promise<#throws()>', () => {
     class OtherError extends Error {}
 
-    it('asserts thrown', () => {
-      surely(() => { Promise.rejects(new Error()) }).throws(Error)
+    it('asserts thrown', async () => {
+      surely(() => { return Promise.reject(new Error()) }).eventually.throws(Error)
+    })
+
+    it('asserts not thrown', async () => {
+      surely(() => { return Promise.resolve() }).doesnt.eventually.throw(Error)
     })
 
     // it('asserts thrown with message', () => {

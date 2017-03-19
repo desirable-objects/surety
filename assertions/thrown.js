@@ -9,7 +9,7 @@ module.exports = function (inverse, fn, expected, message) {
   const expectedErrorClass = expected && expected.name
   try {
     fn()
-
+    
     if (!inverse) {
       fail = [ Throw, expectedErrorClass, '(no error)' ]
     }
