@@ -61,6 +61,25 @@ describe('surety', () => {
         ''
       ])
     })
+
+    it('thrown when not expected', () => {
+      expectThrown(() => {
+        surely(() => { throw new Error() }).doesnt.throw()
+      }, [
+        'expected function not to have thrown Error',
+        '',
+        'Expected:',
+        '(no error)',
+        '',
+        'Thrown:',
+        'Error',
+        ''
+      ])
+    })
+
+    it('throws any error', () => {
+      surely(() => { throw new Error() }).throws()
+    })
   })
 
 })

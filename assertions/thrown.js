@@ -6,7 +6,7 @@ const { Throw, NoThrow, Mismatch } = ExpectationError.Types
 
 module.exports = function (inverse, fn, expected) {
   let fail
-  const expectedErrorClass = expected.name
+  const expectedErrorClass = expected && expected.name
   try {
     fn()
 
@@ -15,7 +15,8 @@ module.exports = function (inverse, fn, expected) {
     }
   } catch (e) {
     const actualErrorClass = e.constructor.name
-    if (!inverse && actualErrorClass !== expectedErrorClass) {
+    
+    if (!inverse && (expectedErrorClass && (actualErrorClass !== expectedErrorClass))) {
       fail = { type: Mismatch, expected: expectedErrorClass, actual: actualErrorClass }
     }
     
