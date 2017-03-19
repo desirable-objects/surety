@@ -51,10 +51,14 @@ describe('surety', () => {
       expectThrown(() => {
         surely(() => { throw new OtherError() }).throws(Error)
       }, [
-        'expected function to have thrown an Error',
+        'expected function to have thrown Error but threw OtherError',
+        '',
+        'Expected:',
+        'Error',
         '',
         'Thrown:',
-        'OtherError'
+        'OtherError',
+        ''
       ])
     })
   })
