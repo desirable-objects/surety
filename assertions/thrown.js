@@ -17,11 +17,11 @@ module.exports = function (inverse, fn, expected, message) {
     const actualErrorClass = e.constructor.name
     
     if (!inverse && (expectedErrorClass && (actualErrorClass !== expectedErrorClass))) {
-      fail = [ Mismatch, expectedErrorClass, actualErrorClass ]
+      fail = [ Mismatch, expectedErrorClass, actualErrorClass, message || '(no message specified)', e.message ]
     }
     
     if (inverse) {
-      fail = [ NoThrow, '(no error)', actualErrorClass ]
+      fail = [ NoThrow, '(no error)', actualErrorClass, null, e.message ]
     }
 
     if (message && e.message !== message) {

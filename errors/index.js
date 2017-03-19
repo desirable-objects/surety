@@ -10,7 +10,6 @@ files.forEach((file) => {
     const resolved = Path.join(__dirname, base)
     const camelCase = base.replace(/(-[a-z])/g, t => t[1].toUpperCase())
     const key = `${camelCase.charAt(0).toUpperCase()}${camelCase.slice(1)}`
-    console.log('keeeii', key)
     exports[key] = require(resolved)
   }
 }, {})

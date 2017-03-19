@@ -57,9 +57,11 @@ describe('surety', () => {
         '',
         'Expected:',
         'Error',
+        'msg2',
         '',
         'Thrown:',
         'Error',
+        'msg1',
         ''
       ])
     })
@@ -73,9 +75,11 @@ describe('surety', () => {
         '',
         'Expected:',
         'Error',
+        'same message',
         '',
         'Thrown:',
         'OtherError',
+        'same message',
         ''
       ])
     })
@@ -92,9 +96,11 @@ describe('surety', () => {
         '',
         'Expected:',
         'Error',
+        '(no message specified)',
         '',
         'Thrown:',
         'OtherError',
+        '(no message)',
         ''
       ])
     })
@@ -110,6 +116,7 @@ describe('surety', () => {
         '',
         'Thrown:',
         'Error',
+        '(no message)',
         ''
       ])
     })
@@ -117,6 +124,19 @@ describe('surety', () => {
     it('throws any error', () => {
       surely(() => { throw new Error() }).throws()
     })
+  })
+
+  context('Promise<#throws()>', () => {
+    class OtherError extends Error {}
+
+    it('asserts thrown', () => {
+      surely(() => { Promise.rejects(new Error()) }).throws(Error)
+    })
+
+    // it('asserts thrown with message', () => {
+    //   const msg = 'some message'
+    //   surely(() => { throw new Error(msg) }).throws(Error, msg)
+    // })
   })
 
 })

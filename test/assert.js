@@ -9,7 +9,6 @@ exports.expectThrown = function (fn, lines) {
     fail('no exception thrown')
   } catch (e) {
     const messages = e.message.split('\n')
-
     messages.forEach((message, i) => {
       expect(stripColor(message), `line ${i}: ${message}`).to.equal(lines[i])
     })

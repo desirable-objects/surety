@@ -20,11 +20,19 @@ class ExpectationError extends AssertionError {
       '',
       'Expected:',
       green(expected),
+    ]
+
+    if (expectedMessage) {
+      messages.push(expectedMessage)
+    }
+
+    messages.push(...[
       '',
       'Thrown:',
       red(actual),
+      actualMessage == '' ? '(no message)' : actualMessage,
       ''
-    ]
+    ])
     
     super(messages)
   }
