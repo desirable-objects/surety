@@ -38,6 +38,8 @@ describe('surety', () => {
   })
 
   context('#throws()', () => {
+    class OtherError extends Error {}
+
     it('asserts thrown', () => {
       surely(() => { throw new Error() }).throws(Error)
     })
@@ -62,12 +64,27 @@ describe('surety', () => {
       ])
     })
 
+    it('asserts thrown with matching message but wrong error', () => {
+      expectThrown(() => {
+        const msg = 'same message'
+        surely(() => { throw new OtherError(msg) }).throws(Error, msg)
+      }, [
+        'expected function to have thrown Error but threw OtherError',
+        '',
+        'Expected:',
+        'Error',
+        '',
+        'Thrown:',
+        'OtherError',
+        ''
+      ])
+    })
+
     it('asserts not thrown', () => {
       surely(() => { }).doesnt.throw(Error)
     })
 
     it('threw something different', () => {
-      class OtherError extends Error {}
       expectThrown(() => {
         surely(() => { throw new OtherError() }).throws(Error)
       }, [
