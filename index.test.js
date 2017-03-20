@@ -5,7 +5,7 @@ const { expectThrown } = require('./test/assert')
 const surely = require('.')
 
 describe('surety', () => {
-  context('#equals()', () => {
+  context('#equals(boolean)', () => {
     it('asserts true', () => {
       surely(true).equals(true)
     })
@@ -13,7 +13,9 @@ describe('surety', () => {
     it('asserts false', () => {
       surely(true).doesnt.equal(false)
     })
+  })
 
+  context('#equals(string)', () => {
     it('strings are equal', () => {
       surely('str').equals('str')
     })
@@ -26,15 +28,46 @@ describe('surety', () => {
       expectThrown(() => {
         surely('string').equals('stripe')
       }, [
-        'expected string to equal stripe',
+        `expected 'string' to equal 'stripe'`,
         '',
         'Expected:',
-        'string',
+        "'string'",
         '',
         'Actual:',
-        'stripe'
+        "'stripe'"
       ])
     })
+  })
+
+  it('comparison of string to object', () => {
+    surely('xxx').doesnt.equal({ a: 'b' })
+  })
+
+  it('comparison of object to number', () => {
+    surely({ a: 'b' }).doesnt.equal(7)
+  })
+
+  it('unequal type messaging', () => {
+    expectThrown(() => {
+      surely('abc').equals({ a: { b: 'c' } })
+    }, [
+      "expected 'abc' to equal { a: { b: 'c' } }",
+      '',
+      'Expected:',
+      "'abc'",
+      '',
+      'Actual:',
+      "{ a: { b: 'c' } }",
+      ''
+    ])
+  })
+
+  context('#equals(object)', () => {
+    it('equals object', () => {
+      surely({ foo: { bar: 'baz' } }).equals({ foo: { bar: 'baz' } })
+    })
+
+
   })
 
   context('Promise<#equals()>', () => {
