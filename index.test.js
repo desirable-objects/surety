@@ -67,7 +67,27 @@ describe('surety', () => {
       surely({ foo: { bar: 'baz' } }).equals({ foo: { bar: 'baz' } })
     })
 
+    it('does not equal object', () => {
+      expectThrown(() => {
+        surely({ foo: { bar: 'baz' } }).equals({ foo: { bar: 'qux' } })
+      }, [
+        'expected objects to have deep equality',
+        '',
+        'Expected:',
+        "{ foo: { bar: 'baz' } }",
+        '',
+        'Actual:',
+        "{ foo: { bar: 'qux' } }",
+        '',
+        'Differences:',
+        ".foo.bar was 'qux' but expected 'baz'",
+        ''
+      ])
+    })
 
+    it.skip('object not equal because properties are missing', () => {
+
+    })
   })
 
   context('Promise<#equals()>', () => {

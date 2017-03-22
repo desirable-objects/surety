@@ -1,7 +1,7 @@
 'use strict'
 
 const fail = require('./fail')
-const { EqualityError } = require('../errors')
+const { EqualityError, ObjectEqualityError } = require('../errors')
 const { inspect } = require('util')
 
 function compareObjects(path, expected, actual) {
@@ -18,18 +18,26 @@ function compareObjects(path, expected, actual) {
   }, [])
 }
 
-module.exports = function (inverse, expected, actual) {
-  let equal
-  let difference = actual
-
-  if (typeof expected === 'object' && typeof actual === 'object') {
-    difference = compareObjects('', expected, actual)
-    equal = !difference.length
-  } else {
-    equal = expected === actual
-  }
+function assertDeepEquality (inverse, expected, actual) {
+  const differences = compareObjects('', expected, actual)
+  const equal = !differences.length
 
   if (equal === inverse) {
-    throw new EqualityError(inverse, inspect(expected), inspect(difference))
+    throw new ObjectEqualityError(inverse, inspect(expected), inspect(actual), differences)
+  }
+}
+
+function assertShallowEquality (inverse, expected, actual) {
+  const equal = expected === actual
+  if (equal === inverse) {
+    throw new EqualityError(inverse, inspect(expected), inspect(actual))
+  }
+}
+
+module.exports = function (inverse, expected, actual) {
+  if (typeof expected === 'object' && typeof actual === 'object') {
+    return assertDeepEquality(inverse, expected, actual)
+  } else {
+    return assertShallowEquality(inverse, expected, actual)
   }
 }
