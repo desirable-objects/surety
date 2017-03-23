@@ -1,24 +1,20 @@
 'use strict'
 
-const { equal, thrown } = require('./assertions')
+const assertions = require('./assertions')
 
-const expectation = function (expectation, ...params) {
-  return {
-    equals: equal.bind(this, false, expectation),
-    throws: thrown.bind(this, false, expectation, ...params),
-    doesnt: {
-      equal: equal.bind(this, true, expectation),
-      throw: thrown.bind(this, true, expectation, ...params),
-      eventually: {
-        equal: () => { return Promise.resolve(equal.bind(this, true, expectation)) },
-        throw: () => { return Promise.resolve(thrown.bind(this, true, expectation, ...params)) }
-      }
-    },
-    eventually: {
-      equals: () => { return Promise.resolve(equal.bind(this, false, expectation)) },
-      throws: () => { return Promise.resolve(thrown.bind(this, false, expectation, ...params)) }
+const expectation = function (...params) {
+  return ['equal', 'throw', 'exist'].reduce((curr, assertion) => {
+    const pluralAssertion = `${assertion}s`
+    curr[pluralAssertion] = assertions[assertion].bind(this, false, ...params)
+    curr.doesnt[assertion] = assertions[assertion].bind(this, true, ...params)
+    curr.eventually[pluralAssertion] = () => {
+      return Promise.resolve(curr[pluralAssertion])
     }
-  }
+    curr.doesnt.eventually[assertion] = () => { 
+      return Promise.resolve(curr.doesnt[assertion])
+    }
+    return curr
+  }, { doesnt: { eventually: {} }, eventually: {} })
 }
 
 const surely = function (expected) {

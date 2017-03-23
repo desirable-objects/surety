@@ -15,6 +15,41 @@ describe('surety', () => {
     })
   })
 
+  context('#exists(boolean)', () => {
+    it('asserts existence of boolean', () => {
+      surely(true).exists()
+    })
+
+    it('asserts existence of string', () => {
+      surely('xxx').exists()
+    })
+
+    it('asserts existence of object', () => {
+      surely({}).exists()
+    })
+
+    it('asserts existence of array', () => {
+      surely([]).exists()
+    })
+
+    it('asserts existence of number', () => {
+      surely(0).exists()
+    })
+
+    it('asserts existence of empty string', () => {
+      surely('').exists()
+    })
+
+    it('asserts non-existence of null', () => {
+      surely(null).doesnt.exist()
+    })
+
+    it('asserts non-existence of undefined', () => {
+      surely(undefined).doesnt.exist()
+    })
+  })
+
+
   context('#equals(string)', () => {
     it('strings are equal', () => {
       surely('str').equals('str')
