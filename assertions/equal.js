@@ -4,10 +4,10 @@ const fail = require('./fail')
 const { EqualityError, ObjectEqualityError } = require('../errors')
 const { inspect } = require('util')
 
-function compareObjects(path, expected, actual) {
+function compareObjects(path, actual, expected) {
   return Object.keys(expected).reduce((curr, key) => {
     if (typeof expected[key] === 'object') {
-      curr.push(...compareObjects(`${path}.${key}`, expected[key], actual[key]))
+      curr.push(...compareObjects(`${path}.${key}`, actual[key], expected[key]))
       return curr
     }
 
@@ -18,19 +18,19 @@ function compareObjects(path, expected, actual) {
   }, [])
 }
 
-function assertDeepEquality (inverse, expected, actual) {
-  const differences = compareObjects('', expected, actual)
+function assertDeepEquality (inverse, actual, expected) {
+  const differences = compareObjects('', actual, expected)
   const equal = !differences.length
 
   if (equal === inverse) {
-    throw new ObjectEqualityError(inverse, inspect(expected), inspect(actual), differences)
+    throw new ObjectEqualityError(inverse, inspect(actual), inspect(expected), differences)
   }
 }
 
-function assertShallowEquality (inverse, expected, actual) {
+function assertShallowEquality (inverse, actual, expected) {
   const equal = expected === actual
   if (equal === inverse) {
-    throw new EqualityError(inverse, inspect(expected), inspect(actual))
+    throw new EqualityError(inverse, inspect(actual), inspect(expected))
   }
 }
 

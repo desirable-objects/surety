@@ -17,8 +17,8 @@ const expectation = function (...params) {
   }, { doesnt: { eventually: {} }, eventually: {} })
 }
 
-const surely = function (expected) {
-  return expectation(expected)
+const surely = function (actual) {
+  return expectation(actual)
 }
 
 module.exports = surely

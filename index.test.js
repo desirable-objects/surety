@@ -109,19 +109,33 @@ describe('surety', () => {
         'expected objects to have deep equality',
         '',
         'Expected:',
-        "{ foo: { bar: 'baz' } }",
-        '',
-        'Actual:',
         "{ foo: { bar: 'qux' } }",
         '',
+        'Actual:',
+        "{ foo: { bar: 'baz' } }",
+        '',
         'Differences:',
-        ".foo.bar was 'qux' but expected 'baz'",
+        ".foo.bar was 'baz' but expected 'qux'",
         ''
       ])
     })
 
-    it.skip('object not equal because properties are missing', () => {
-
+    it('object not equal because properties are missing', () => {
+      expectThrown(() => {
+        surely({ foo: { quux: 'grault' } }).equals({ foo: { bar: 'qux' } })
+      }, [
+        'expected objects to have deep equality',
+        '',
+        'Expected:',
+        "{ foo: { bar: 'qux' } }",
+        '',
+        'Actual:',
+        "{ foo: { quux: 'grault' } }",
+        '',
+        'Differences:',
+        ".foo.bar was undefined but expected 'qux'",
+        ''
+      ])
     })
   })
 

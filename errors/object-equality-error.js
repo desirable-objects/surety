@@ -5,7 +5,7 @@ const AssertionError = require('./_error')
 const { inspect } = require('util')
 
 class ObjectEqualityError extends AssertionError {
-  constructor(inverse, expected, actual, differences) {
+  constructor(inverse, actual, expected, differences) {
     const language = inverse ? 'not to': 'to'
     const messages = [`expected objects ${language} have deep equality`]    
     
