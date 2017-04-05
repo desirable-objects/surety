@@ -3,7 +3,7 @@
 const assertions = require('./assertions')
 
 const expectation = function (...params) {
-  return ['equal', 'throw', 'exist'].reduce((curr, assertion) => {
+  const plurals = ['equal', 'throw', 'exist'].reduce((curr, assertion) => {
     const pluralAssertion = `${assertion}s`
     curr[pluralAssertion] = assertions[assertion].bind(this, false, ...params)
     curr.doesnt[assertion] = assertions[assertion].bind(this, true, ...params)
@@ -15,6 +15,16 @@ const expectation = function (...params) {
     }
     return curr
   }, { doesnt: { eventually: {} }, eventually: {} })
+
+  plurals.has = {
+    length: assertions.length.bind(this, false, ...params)
+  }
+
+  plurals.doesnt.have = {
+    length: assertions.length.bind(this, true, ...params)
+  }
+
+  return plurals
 }
 
 const surely = function (actual) {

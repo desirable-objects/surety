@@ -255,4 +255,54 @@ describe('surety', () => {
     // })
   })
 
+  context('#has.length(boolean)', () => {
+    it('asserts length of array', () => {
+      surely(new Array(5)).has.length(5)
+    })
+    
+    it('asserts length of array is not', () => {
+      surely(new Array(3)).doesnt.have.length(1)
+    })
+
+    it('asserts length of string', () => {
+      surely('test').has.length(4)
+    })
+    
+    it('asserts length of string is not', () => {
+      surely('quux').doesnt.have.length(0)
+    })
+
+    it('asserts length of number', () => {
+      expectThrown(() => {
+        surely(5).has.length(5)
+      }, [
+        'Expected 5 to have a length'
+      ])
+    })
+    
+    it('asserts length of number is not', () => {
+      expectThrown(() => {
+        surely(8).doesnt.have.length(5)
+      }, [
+        'Expected 8 to have a length'
+      ])
+    })
+
+    it('asserts null comparator', () => {
+      expectThrown(() => {
+        surely(new Array(5)).has.length(null)
+      }, [
+        'Length passed to assertion was null but should be a Number'
+      ])
+    })
+    
+    it('asserts invalid comparator', () => {
+      expectThrown(() => {
+        surely(new Array(3)).doesnt.have.length('string')
+      }, [
+        `Length passed to assertion was 'string' but should be a Number`
+      ])
+    })
+  })
+
 })
